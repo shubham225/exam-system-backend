@@ -27,7 +27,7 @@ public class AdminController {
             method = RequestMethod.GET,
             path = "/exam/{examId}"
     )
-    public ExamResponseDto getExamById(@PathVariable int examId){
+    public ExamResponseDto getExamById(@PathVariable long examId){
         return adminService.getExamById(examId);
     }
 
@@ -43,7 +43,7 @@ public class AdminController {
             method = RequestMethod.PUT,
             path = "/exam/{examId}"
     )
-    public ExamResponseDto modifyExamById(@PathVariable int examId,
+    public ExamResponseDto modifyExamById(@PathVariable long examId,
                                       @RequestBody ExamRequestDto examRequestDto){
         return adminService.modifyExamById(examId, examRequestDto);
     }
@@ -52,7 +52,7 @@ public class AdminController {
             method = RequestMethod.DELETE,
             path = "/exam/{examId}"
     )
-    public ExamResponseDto deleteExamById(@PathVariable int examId){
+    public ExamResponseDto deleteExamById(@PathVariable long examId){
         return adminService.deleteExamById(examId);
     }
 
@@ -60,7 +60,7 @@ public class AdminController {
             method = RequestMethod.GET,
             path = "/exam/{examId}/module"
     )
-    public List<ModuleResponseDto> getAllModulesByExamId(@PathVariable int examId){
+    public List<ModuleResponseDto> getAllModulesByExamId(@PathVariable long examId){
         return adminService.getAllModulesByExamId(examId);
     }
 
@@ -68,7 +68,7 @@ public class AdminController {
             method = RequestMethod.GET,
             path = "/module/{moduleId}"
     )
-    public ModuleResponseDto getModuleById(@PathVariable int moduleId){
+    public ModuleResponseDto getModuleById(@PathVariable long moduleId){
         return adminService.getModuleById(moduleId);
     }
 
@@ -84,7 +84,7 @@ public class AdminController {
             method = RequestMethod.PUT,
             path = "/module/{moduleId}"
     )
-    public ModuleResponseDto modifyModuleById(@PathVariable int moduleId,
+    public ModuleResponseDto modifyModuleById(@PathVariable long moduleId,
                                               @RequestBody ModuleRequestDto moduleRequestDto){
         return adminService.modifyModuleById(moduleId, moduleRequestDto);
     }
@@ -93,7 +93,7 @@ public class AdminController {
             method = RequestMethod.DELETE,
             path = "/module/{moduleId}"
     )
-    public ModuleResponseDto deleteModuleById(@PathVariable int moduleId){
+    public ModuleResponseDto deleteModuleById(@PathVariable long moduleId){
         return adminService.deleteModuleById(moduleId);
     }
 
@@ -101,7 +101,7 @@ public class AdminController {
             method = RequestMethod.GET,
             path = "/module/{moduleId}/question"
     )
-    public List<QuestionResponseDto> getAllQuestionsByModuleId(@PathVariable int moduleId){
+    public List<QuestionResponseDto> getAllQuestionsByModuleId(@PathVariable long moduleId){
         return adminService.getAllQuestionsByModuleId(moduleId);
     }
 
@@ -109,7 +109,7 @@ public class AdminController {
             method = RequestMethod.GET,
             path = "/question/{questionId}"
     )
-    public QuestionResponseDto getQuestionById(@PathVariable int questionId){
+    public QuestionResponseDto getQuestionById(@PathVariable long questionId){
         return adminService.getQuestionById(questionId);
     }
 
@@ -125,7 +125,7 @@ public class AdminController {
             method = RequestMethod.PUT,
             path = "/question/{questionId}"
     )
-    public QuestionResponseDto modifyQuestionById(@PathVariable int questionId,
+    public QuestionResponseDto modifyQuestionById(@PathVariable long questionId,
                                                   @RequestBody QuestionRequestDto questionRequestDto){
         return adminService.modifyQuestionById(questionId, questionRequestDto);
     }
@@ -134,7 +134,7 @@ public class AdminController {
             method = RequestMethod.DELETE,
             path = "/question/{questionId}"
     )
-    public QuestionResponseDto deleteQuestionById(@PathVariable int questionId){
+    public QuestionResponseDto deleteQuestionById(@PathVariable long questionId){
         return adminService.deleteQuestionById(questionId);
     }
 
@@ -142,15 +142,15 @@ public class AdminController {
             method = RequestMethod.GET,
             path = "/question/{questionId}/option"
     )
-    public List<OptionResponseDto> getAllOptionsByQuestionId(@PathVariable int questionId){
-        return adminService.getAllOptionsByQuestionId();
+    public List<OptionResponseDto> getAllOptionsByQuestionId(@PathVariable long questionId){
+        return adminService.getAllOptionsByQuestionId(questionId);
     }
 
     @RequestMapping(
             method = RequestMethod.POST,
             path = "/question/{questionId}/option"
     )
-    public List<OptionResponseDto> createOptionsByQuestionId(@PathVariable int questionId,
+    public List<OptionResponseDto> createOptionsByQuestionId(@PathVariable long questionId,
                                                              @RequestBody List<OptionRequestDto> optionRequestDto){
         return adminService.createOptionsByQuestionId(questionId, optionRequestDto);
     }
@@ -159,7 +159,7 @@ public class AdminController {
             method = RequestMethod.PUT,
             path = "/option/{optionId}"
     )
-    public OptionResponseDto modifyOptionById(@PathVariable int optionId,
+    public OptionResponseDto modifyOptionById(@PathVariable long optionId,
                                               @RequestBody  OptionRequestDto optionRequestDto){
         return adminService.modifyOptionById(optionId, optionRequestDto);
     }
@@ -168,7 +168,7 @@ public class AdminController {
             method = RequestMethod.DELETE,
             path = "/option/{optionId}"
     )
-    public OptionResponseDto deleteOptionById(@PathVariable int optionId){
+    public OptionResponseDto deleteOptionById(@PathVariable long optionId){
         return adminService.deleteOptionById(optionId);
     }
 
@@ -176,7 +176,7 @@ public class AdminController {
             method = RequestMethod.POST,
             path = "/exam/{examId}/assign"
     )
-    public UserResponseDto assignExamsToUsers(@PathVariable int examId,
+    public UserResponseDto assignExamsToUsers(@PathVariable long examId,
                                               @RequestBody List<UserRequestDto> userRequestDto) {
         return adminService.assignExamsToUsersById(examId, userRequestDto);
     }

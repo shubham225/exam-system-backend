@@ -8,5 +8,5 @@ import java.util.List;
 @Getter
 @Setter
 public class UserRequestDto {
-    private int userId;
+    private long userId;
 }

@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OptionRequestDto {
-    private int questionId;
+    private long questionId;
     private String optionText;
     private boolean isAnswer;
 }

@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ModuleRequestDto {
-    private int examId;
+    private long examId;
     private String name;
     private String description;
 }
