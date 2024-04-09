@@ -12,13 +12,14 @@ import java.util.Date;
 public class BaseModel {
     @Id
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE
+            strategy = GenerationType.SEQUENCE,
+            generator = "sequence_generator"
     )
-//    @SequenceGenerator(
-//            name = "inc_by_one_from_thousand",
-//            initialValue = 1000,
-//            allocationSize = 1
-//    )
+    @SequenceGenerator(
+            name = "sequence_generator",
+            initialValue = 1000,
+            allocationSize = 1
+    )
     private long id;
     private boolean isActive;
     private Date createdOn;

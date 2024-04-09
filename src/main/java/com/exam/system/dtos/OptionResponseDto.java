@@ -7,13 +7,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OptionResponseDto {
-    private long questionId;
     private long id;
     private String optionText;
+    private long questionId;
+
     public OptionResponseDto() {}
+
     public OptionResponseDto(Option option) {
-        this.questionId = option.getQuestion().getId();
         this.id = option.getId();
         this.optionText = option.getOptionText();
+        this.questionId = option.getQuestion().getId();
     }
 }

@@ -11,16 +11,9 @@ import java.util.Set;
 @Setter
 @Entity
 public class Exam extends BaseModel{
+    @Column(nullable = false, unique = true)
     private String name;
     private String description;
-    @ManyToMany(
-            cascade = CascadeType.PERSIST,
-            fetch = FetchType.EAGER
-    )
-    @JoinTable(
-            name = "exam_module",
-            joinColumns = @JoinColumn(name = "exam_id"),
-            inverseJoinColumns = @JoinColumn(name = "module_id")
-    )
+    @ManyToMany(mappedBy = "exam")
     private Set<Module> modules;
 }

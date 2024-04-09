@@ -8,10 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ModuleResponseDto {
-    private long examId;
     private long id;
     private String name;
     private String description;
+    private long examId;
 
     public ModuleResponseDto() {
     }

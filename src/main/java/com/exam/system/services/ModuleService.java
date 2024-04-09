@@ -8,6 +8,7 @@ import com.exam.system.repositories.ModuleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,7 @@ public class ModuleService {
         module.setActive(true);
 
         Exam exam = examService.getExamById(examId);
+        module.setExam(new HashSet<>());
         module.getExam().add(exam);
 
         module = moduleRepository.save(module);
