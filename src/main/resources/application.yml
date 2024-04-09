@@ -1,0 +1,34 @@
+# Application Info
+info:
+  application:
+    name: authorization-server
+    description: OAuth2 Authorization Server
+    author: Shubham Shinde
+    version: '@project.version@'
+
+# Server Configurations
+server:
+  port: 9050
+
+# Spring Configuration
+spring:
+  application:
+    name: exam-system-backend
+
+# Database Config
+  datasource:
+    url: ${EXAM_DATASOURCE_URL}
+    username: ${EXAM_DB_USER}
+    password: ${EXAM_DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+# Logging Configuration
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
