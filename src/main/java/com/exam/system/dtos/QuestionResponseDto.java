@@ -26,8 +26,10 @@ public class QuestionResponseDto {
         this.type = question.getQuestionType();
         this.moduleId = question.getModule().getId();
         Set<Option> options = question.getOptions();
-        this.options = new HashSet<>();
-        for(Option option : options)
-            this.options.add(new OptionResponseDto(option));
+        if(options != null) {
+            this.options = new HashSet<>();
+            for (Option option : options)
+                this.options.add(new OptionResponseDto(option));
+        }
     }
 }

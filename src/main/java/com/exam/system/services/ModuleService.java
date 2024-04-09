@@ -3,7 +3,6 @@ package com.exam.system.services;
 import com.exam.system.exceptions.ModuleNotFoundException;
 import com.exam.system.models.Exam;
 import com.exam.system.models.Module;
-import com.exam.system.repositories.ExamRepository;
 import com.exam.system.repositories.ModuleRepository;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +58,11 @@ public class ModuleService {
         return module;
     }
 
+    public Module modifyModule(Module module) {
+        module = moduleRepository.save(module);
+        return module;
+    }
+
     public Module deleteModule(long id) {
         Optional<Module> moduleOptional = moduleRepository.findById(id);
 
@@ -66,6 +70,7 @@ public class ModuleService {
             throw new ModuleNotFoundException();
 
         Module module = moduleOptional.get();
+
         moduleRepository.delete(module);
 
         return module;

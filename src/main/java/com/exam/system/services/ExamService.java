@@ -49,6 +49,11 @@ public class ExamService {
         return exam;
     }
 
+    public Exam modifyExam(Exam exam) {
+        exam = examRepository.save(exam);
+        return exam;
+    }
+
     public Exam deleteExam(long id) {
         Optional<Exam> examOptional = examRepository.findById(id);
 

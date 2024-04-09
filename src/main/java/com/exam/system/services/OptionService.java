@@ -1,6 +1,7 @@
 package com.exam.system.services;
 
 import com.exam.system.exceptions.OptionNotFoundException;
+import com.exam.system.models.Module;
 import com.exam.system.models.Question;
 import com.exam.system.models.Option;
 import com.exam.system.repositories.OptionRepository;
@@ -53,6 +54,11 @@ public class OptionService {
 
         option = optionRepository.save(option);
 
+        return option;
+    }
+
+    public Option modifyOption(Option option) {
+        option = optionRepository.save(option);
         return option;
     }
 

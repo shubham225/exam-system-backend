@@ -3,6 +3,7 @@ package com.exam.system.services;
 import com.exam.system.enums.QuestionType;
 import com.exam.system.exceptions.QuestionNotFoundException;
 import com.exam.system.models.Module;
+import com.exam.system.models.Option;
 import com.exam.system.models.Question;
 import com.exam.system.repositories.QuestionRepository;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class QuestionService {
@@ -17,7 +19,7 @@ public class QuestionService {
     private final ModuleService moduleService;
 
     public QuestionService(QuestionRepository questionRepository,
-                         ModuleService moduleService) {
+                           ModuleService moduleService) {
         this.questionRepository = questionRepository;
         this.moduleService = moduleService;
     }
@@ -57,6 +59,11 @@ public class QuestionService {
         return question;
     }
 
+    public Question modifyQuestion(Question question) {
+        question = questionRepository.save(question);
+        return question;
+    }
+
     public Question deleteQuestion(long id) {
         Optional<Question> questionOptional = questionRepository.findById(id);
 
@@ -64,6 +71,7 @@ public class QuestionService {
             throw new QuestionNotFoundException();
 
         Question question = questionOptional.get();
+        
         questionRepository.delete(question);
 
         return question;

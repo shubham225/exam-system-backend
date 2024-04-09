@@ -10,10 +10,7 @@ import lombok.Setter;
 public class Option extends BaseModel {
     @Column(nullable = false, unique = true)
     private String optionText;
-    @ManyToOne(
-            cascade = CascadeType.PERSIST,
-            fetch = FetchType.EAGER
-    )
+    @ManyToOne
     private Question question;
     private boolean isAnswer;
 }

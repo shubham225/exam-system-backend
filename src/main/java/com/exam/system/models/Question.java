@@ -12,11 +12,14 @@ import java.util.Set;
 @Setter
 @Entity
 public class Question extends BaseModel {
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String questionText;
     @ManyToOne
     private Module module;
-    @OneToMany(mappedBy = "question")
+    @OneToMany(
+            mappedBy = "question",
+            cascade = CascadeType.ALL
+    )
     private Set<Option> options;
     @Enumerated
     private QuestionType questionType;

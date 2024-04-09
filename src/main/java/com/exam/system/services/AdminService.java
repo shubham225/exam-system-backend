@@ -6,6 +6,7 @@ import com.exam.system.models.Exam;
 import com.exam.system.models.Module;
 import com.exam.system.models.Option;
 import com.exam.system.models.Question;
+import com.exam.system.services.util.CommonMethods;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,12 +18,14 @@ public class AdminService {
     private final ModuleService moduleService;
     private final QuestionService questionService;
     private final OptionService optionService;
+    private final CommonMethods commonMethods;
 
-    public AdminService(ExamService examService, ModuleService moduleService, QuestionService questionService, OptionService optionService) {
+    public AdminService(ExamService examService, ModuleService moduleService, QuestionService questionService, OptionService optionService, CommonMethods commonMethods) {
         this.examService = examService;
         this.moduleService = moduleService;
         this.questionService = questionService;
         this.optionService = optionService;
+        this.commonMethods = commonMethods;
     }
 
     public List<ExamResponseDto> getAllExams() {
@@ -48,7 +51,10 @@ public class AdminService {
     }
 
     public ExamResponseDto modifyExamById(long examId, ExamRequestDto examRequestDto) {
-        return null;
+        Exam exam = examService.getExamById(examId);
+        commonMethods.updateExamFromExamReqDto(exam, examRequestDto);
+
+        return new ExamResponseDto(exam);
     }
 
     public ExamResponseDto deleteExamById(long examId) {
@@ -83,7 +89,10 @@ public class AdminService {
     }
 
     public ModuleResponseDto modifyModuleById(long moduleId, ModuleRequestDto moduleRequestDto) {
-        return null;
+        Module module = moduleService.getModuleById(moduleId);
+        commonMethods.updateModuleFromModuleReqDto(module, moduleRequestDto);
+
+        return new ModuleResponseDto(module);
     }
 
     public ModuleResponseDto deleteModuleById(long moduleId) {
@@ -120,7 +129,10 @@ public class AdminService {
     }
 
     public QuestionResponseDto modifyQuestionById(long questionId, QuestionRequestDto questionRequestDto) {
-        return null;
+        Question question = questionService.getQuestionById(questionId);
+        commonMethods.updateQuestionFromQuestionReqDto(question, questionRequestDto);
+
+        return new QuestionResponseDto(question);
     }
 
     public QuestionResponseDto deleteQuestionById(long questionId) {
@@ -154,7 +166,10 @@ public class AdminService {
     }
 
     public OptionResponseDto modifyOptionById(long optionId, OptionRequestDto optionRequestDto) {
-        return null;
+        Option option = optionService.getOptionById(optionId);
+        commonMethods.updateOptionFromOptionReqDto(option, optionRequestDto);
+
+        return new OptionResponseDto(option);
     }
 
     public OptionResponseDto deleteOptionById(long optionId) {
