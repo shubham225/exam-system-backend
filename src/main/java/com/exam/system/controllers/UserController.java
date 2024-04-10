@@ -22,6 +22,6 @@ public class UserController {
             path = "/signup"
     )
     public UserSignupResponseDto signUpUser(@RequestBody UserSignupRequestDto userSignupRequestDto) {
-        return userService.createUser(userSignupRequestDto);
+        return userService.userSignup(userSignupRequestDto);
     }
 }

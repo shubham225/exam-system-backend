@@ -2,10 +2,8 @@ package com.exam.system.services;
 
 import com.exam.system.dtos.*;
 import com.exam.system.enums.QuestionType;
-import com.exam.system.models.Exam;
+import com.exam.system.models.*;
 import com.exam.system.models.Module;
-import com.exam.system.models.Option;
-import com.exam.system.models.Question;
 import com.exam.system.services.util.CommonMethods;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +16,15 @@ public class AdminService {
     private final ModuleService moduleService;
     private final QuestionService questionService;
     private final OptionService optionService;
+    private final UserService userService;
     private final CommonMethods commonMethods;
 
-    public AdminService(ExamService examService, ModuleService moduleService, QuestionService questionService, OptionService optionService, CommonMethods commonMethods) {
+    public AdminService(ExamService examService, ModuleService moduleService, QuestionService questionService, OptionService optionService, UserService userService, CommonMethods commonMethods) {
         this.examService = examService;
         this.moduleService = moduleService;
         this.questionService = questionService;
         this.optionService = optionService;
+        this.userService = userService;
         this.commonMethods = commonMethods;
     }
 
@@ -176,6 +176,12 @@ public class AdminService {
         Option option = optionService.deleteOption(optionId);
 
         return new OptionResponseDto(option);
+    }
+
+    public UserSignupResponseDto adminSignup(UserSignupRequestDto userSignupRequestDto) {
+        User user = userService.createUser(userSignupRequestDto, "ADMIN");
+
+        return new UserSignupResponseDto(user);
     }
 
     public UserResponseDto assignExamsToUsersById(long examId, List<UserRequestDto> userRequestDto) {

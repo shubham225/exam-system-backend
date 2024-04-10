@@ -36,7 +36,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/V1/user/signup").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/api/V1/admin/**").hasAnyAuthority("ROLE_admin")
+                        .requestMatchers("/api/V1/admin/**").hasAnyAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
@@ -54,16 +54,4 @@ public class SecurityConfiguration {
     public BCryptPasswordEncoder getBCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("password")
-//                        .roles("user")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
 }
