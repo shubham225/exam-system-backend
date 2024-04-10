@@ -9,6 +9,8 @@ info:
 # Server Configurations
 server:
   port: 9050
+  error:
+    path: '/error'
 
 # Spring Configuration
 spring:

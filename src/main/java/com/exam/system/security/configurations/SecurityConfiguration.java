@@ -1,6 +1,7 @@
 package com.exam.system.security.configurations;
 
 
+import com.exam.system.security.configurations.exceptionhandler.MyAccessDeniedHandler;
 import com.exam.system.security.configurations.exceptionhandler.MyAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -19,9 +21,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfiguration {
     private final MyAuthenticationEntryPoint myAuthenticationEntryPoint;
-
-    SecurityConfiguration(MyAuthenticationEntryPoint            myAuthenticationEntryPoint) {
+    private final MyAccessDeniedHandler accessDeniedHandler;
+    SecurityConfiguration(MyAuthenticationEntryPoint myAuthenticationEntryPoint,
+                          MyAccessDeniedHandler accessDeniedHandler) {
         this.myAuthenticationEntryPoint = myAuthenticationEntryPoint;
+        this.accessDeniedHandler = accessDeniedHandler;
     }
 
     @Bean
@@ -30,14 +34,15 @@ public class SecurityConfiguration {
             throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/V1/users/signup").permitAll()
+                        .requestMatchers("/api/V1/user/signup").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/api/V1/admin/**").hasAnyAuthority("SCOPE_profile", "ROLE_admin")
+                        .requestMatchers("/api/V1/admin/**").hasAnyAuthority("ROLE_admin")
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(this.myAuthenticationEntryPoint))
+                .exceptionHandling((exception) -> exception.accessDeniedHandler(this.accessDeniedHandler))
                 // Form login handles the redirect to the login page from the
                 // authorization server filter chain
                 .formLogin(Customizer.withDefaults());
@@ -46,14 +51,19 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("password")
-                        .roles("admin")
-                        .build();
-
-        return new InMemoryUserDetailsManager(user);
+    public BCryptPasswordEncoder getBCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
+
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        UserDetails user =
+//                User.withDefaultPasswordEncoder()
+//                        .username("user")
+//                        .password("password")
+//                        .roles("user")
+//                        .build();
+//
+//        return new InMemoryUserDetailsManager(user);
+//    }
 }
