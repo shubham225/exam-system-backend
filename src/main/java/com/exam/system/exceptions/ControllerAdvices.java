@@ -39,7 +39,7 @@ public class ControllerAdvices {
         return new ResponseEntity<ErrorResponseDto>(error, status);
     }
 
-    @ExceptionHandler(Exception.class)
+    //@ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleException(Exception exception, HttpServletRequest request) {
         ErrorResponseDto error = new ErrorResponseDto(exception, request);
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;

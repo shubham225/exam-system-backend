@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 //TODO : Implement a custom error page
 //@RestController
 public class CustomErrorController implements ErrorController {
-    //@GetMapping("/error")
+//    @GetMapping("/error")
     public String handleError() {
         return "error";
     }
