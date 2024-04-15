@@ -3,6 +3,7 @@ package com.exam.system.security.configurations;
 
 import com.exam.system.security.configurations.exceptionhandler.MyAccessDeniedHandler;
 import com.exam.system.security.configurations.exceptionhandler.MyAuthenticationEntryPoint;
+import com.exam.system.security.configurations.filters.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -16,16 +17,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
     private final MyAuthenticationEntryPoint myAuthenticationEntryPoint;
     private final MyAccessDeniedHandler accessDeniedHandler;
+    private final JwtAuthFilter jwtAuthFilter;
     SecurityConfiguration(MyAuthenticationEntryPoint myAuthenticationEntryPoint,
-                          MyAccessDeniedHandler accessDeniedHandler) {
+                          MyAccessDeniedHandler accessDeniedHandler,
+                          JwtAuthFilter jwtAuthFilter) {
         this.myAuthenticationEntryPoint = myAuthenticationEntryPoint;
         this.accessDeniedHandler = accessDeniedHandler;
+        this.jwtAuthFilter = jwtAuthFilter;
     }
 
     @Bean
@@ -34,7 +39,7 @@ public class SecurityConfiguration {
             throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/V1/user/signup").permitAll()
+                        .requestMatchers("/api/V1/auth/register", "/api/V1/auth/login").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/V1/admin/**").hasAnyAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
@@ -43,6 +48,7 @@ public class SecurityConfiguration {
                 .cors(AbstractHttpConfigurer::disable)
                 .httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(this.myAuthenticationEntryPoint))
                 .exceptionHandling((exception) -> exception.accessDeniedHandler(this.accessDeniedHandler))
+                .addFilterBefore(jwtAuthFilter, BasicAuthenticationFilter.class)
                 // Form login handles the redirect to the login page from the
                 // authorization server filter chain
                 .formLogin(Customizer.withDefaults());
