@@ -10,8 +10,8 @@ import java.security.interfaces.RSAPublicKey;
 @Setter
 @Getter
 @ConfigurationProperties(prefix = "rsa")
-public class JwtKeys {
+public class RsaKeyProperties {
     private RSAPrivateKey privateKey;
     private RSAPublicKey publicKey;
-    private String keyID;
+    private String keyId;
 }

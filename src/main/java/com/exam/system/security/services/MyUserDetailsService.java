@@ -1,10 +1,9 @@
-package com.exam.system.security.InBuiltUserManager.services;
+package com.exam.system.security.services;
 
 
 import com.exam.system.models.Role;
 import com.exam.system.models.User;
-import com.exam.system.security.InBuiltUserManager.strategies.UserManagerFactory;
-import com.exam.system.security.InBuiltUserManager.strategies.UserManagerStrategy;
+import com.exam.system.services.IUserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,16 +13,14 @@ import java.util.Set;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
-    private final UserManagerFactory userManagerFactory;
+    private final IUserService userService;
 
-    public MyUserDetailsService(UserManagerFactory userManagerFactory) {
-        this.userManagerFactory = userManagerFactory;
+    public MyUserDetailsService(IUserService userService) {
+        this.userService = userService;
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserManagerStrategy userManagerStrategy = userManagerFactory.getUserManagerStrategy();
-
-        User user = userManagerStrategy.getUserByUsername(username);
+        User user = userService.getUserByUsername(username);
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())

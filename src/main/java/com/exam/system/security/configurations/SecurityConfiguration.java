@@ -3,34 +3,46 @@ package com.exam.system.security.configurations;
 
 import com.exam.system.security.configurations.exceptionhandler.MyAccessDeniedHandler;
 import com.exam.system.security.configurations.exceptionhandler.MyAuthenticationEntryPoint;
-import com.exam.system.security.configurations.filters.JwtAuthFilter;
+import com.exam.system.security.configurations.exceptionhandler.MyBearerTokenAuthenticationEntryPoint;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
     private final MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+    private final MyBearerTokenAuthenticationEntryPoint myBearerTokenAuthenticationEntryPoint;
     private final MyAccessDeniedHandler accessDeniedHandler;
-    private final JwtAuthFilter jwtAuthFilter;
-    SecurityConfiguration(MyAuthenticationEntryPoint myAuthenticationEntryPoint,
+    private final RsaKeyProperties rsaKeys;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    SecurityConfiguration(MyAuthenticationEntryPoint myAuthenticationEntryPoint, MyBearerTokenAuthenticationEntryPoint myBearerTokenAuthenticationEntryPoint,
                           MyAccessDeniedHandler accessDeniedHandler,
-                          JwtAuthFilter jwtAuthFilter) {
+                          RsaKeyProperties rsaKeys, BCryptPasswordEncoder bCryptPasswordEncoder, BCryptPasswordEncoder bCryptPasswordEncoder1) {
         this.myAuthenticationEntryPoint = myAuthenticationEntryPoint;
+        this.myBearerTokenAuthenticationEntryPoint = myBearerTokenAuthenticationEntryPoint;
         this.accessDeniedHandler = accessDeniedHandler;
-        this.jwtAuthFilter = jwtAuthFilter;
+        this.rsaKeys = rsaKeys;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder1;
     }
 
     @Bean
@@ -39,25 +51,47 @@ public class SecurityConfiguration {
             throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/V1/auth/register", "/api/V1/auth/login").permitAll()
+                        .requestMatchers("/api/V1/auth/login").permitAll()
+                        .requestMatchers("/api/V1/auth/register").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/api/V1/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/V1/admin/**").hasAnyAuthority("SCOPE_ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
+                .oauth2ResourceServer(resourceServer -> resourceServer
+                        .jwt(Customizer.withDefaults())
+                        .authenticationEntryPoint(this.myBearerTokenAuthenticationEntryPoint)
+                        .accessDeniedHandler(this.accessDeniedHandler)
+                )
                 .httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(this.myAuthenticationEntryPoint))
-                .exceptionHandling((exception) -> exception.accessDeniedHandler(this.accessDeniedHandler))
-                .addFilterBefore(jwtAuthFilter, BasicAuthenticationFilter.class)
-                // Form login handles the redirect to the login page from the
-                // authorization server filter chain
-                .formLogin(Customizer.withDefaults());
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();
     }
 
     @Bean
-    public BCryptPasswordEncoder getBCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withPublicKey(rsaKeys.getPublicKey()).build();
+    }
+
+    @Bean
+    public JwtEncoder jwtEncoder() {
+        RSAKey rsaKey = new RSAKey.Builder(rsaKeys.getPublicKey())
+                .privateKey(rsaKeys.getPrivateKey())
+                .keyID(rsaKeys.getKeyId())
+                .build();
+
+        JWKSet jwkSet = new JWKSet(rsaKey);
+
+        return new NimbusJwtEncoder(new ImmutableJWKSet<>(jwkSet));
+    }
+
+    @Bean
+    public AuthenticationManager authManager(UserDetailsService userDetailsService) {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(bCryptPasswordEncoder);
+        authenticationProvider.setUserDetailsService(userDetailsService);
+
+        return new ProviderManager(authenticationProvider);
     }
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class UserSignupRequestDto extends UserDto {
+public class UserSignupRequestDto {
+    private String username;
     private String password;
 }

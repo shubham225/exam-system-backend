@@ -36,7 +36,7 @@ public class User extends BaseModel {
     public User() {
         this.username = "";
         this.password = "";
-        this.isActive = false;
+        this.isActive = true;
         this.isAccountExpired = false;
         this.isAccountLocked = false;
         this.isCredentialsExpired = false;

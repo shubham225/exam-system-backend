@@ -6,13 +6,14 @@ import com.exam.system.models.Role;
 import com.exam.system.models.User;
 import com.exam.system.repositories.RoleRepository;
 import com.exam.system.repositories.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements IUserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -48,5 +49,14 @@ public class UserService {
         user = userRepository.save(user);
 
         return user;
+    }
+
+    public User getUserByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if(userOptional.isEmpty())
+            throw new UsernameNotFoundException("User '"+ username + "' doesn't exists");
+
+        return userOptional.get();
     }
 }

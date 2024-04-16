@@ -8,12 +8,13 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class UserSignupResponseDto extends UserDto {
-    private String  password;
+public class UserSignupResponseDto {
+    private long userId;
+    private String username;
 
     public UserSignupResponseDto() {}
     public UserSignupResponseDto(User user) {
-        super.setUsername(user.getUsername());
-        this.password = user.getPassword();
+        this.userId = user.getId();
+        this.username = user.getUsername();
     }
 }
