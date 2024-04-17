@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -38,6 +39,7 @@ public class UserService implements IUserService {
         user.setActive(true);
         user.setUsername(userSignupRequestDto.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userSignupRequestDto.getPassword()));
+        user.setCreatedOn(new Date());
 
         Optional<Role> roleOptional = roleRepository.findByRole(role);
 
