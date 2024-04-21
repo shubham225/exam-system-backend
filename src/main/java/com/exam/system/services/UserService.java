@@ -1,5 +1,6 @@
 package com.exam.system.services;
 
+import com.exam.system.dtos.user.UserResponseDto;
 import com.exam.system.dtos.user.UserSignupRequestDto;
 import com.exam.system.dtos.user.UserSignupResponseDto;
 import com.exam.system.models.Role;
@@ -33,6 +34,18 @@ public class UserService implements IUserService {
         return new UserSignupResponseDto(user);
     }
 
+    public UserResponseDto getUserDetails(long id) {
+        User user = getUserById(id);
+
+        return new UserResponseDto(user);
+    }
+
+    public UserResponseDto getUserDetails(String username) {
+        User user = getUserByUsername(username);
+
+        return new UserResponseDto(user);
+    }
+
     public User createUser(UserSignupRequestDto userSignupRequestDto,
                            String role) {
         User user = new User();
@@ -58,6 +71,15 @@ public class UserService implements IUserService {
 
         if(userOptional.isEmpty())
             throw new UsernameNotFoundException("User '"+ username + "' doesn't exists");
+
+        return userOptional.get();
+    }
+
+    public User getUserById(long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if(userOptional.isEmpty())
+            throw new UsernameNotFoundException("User '"+ id + "' doesn't exists");
 
         return userOptional.get();
     }

@@ -19,6 +19,14 @@ public class UserController {
             path = "{id}"
     )
     public UserResponseDto getUserById(@PathVariable long id) {
-        return new UserResponseDto();
+        return userService.getUserDetails(id);
+    }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            path = "{username}"
+    )
+    public UserResponseDto getUserById(@PathVariable String username) {
+        return userService.getUserDetails(username);
     }
 }
