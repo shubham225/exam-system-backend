@@ -1,15 +1,11 @@
 package com.exam.system.controllers;
 
-import com.exam.system.dtos.LoginRequestDto;
-import com.exam.system.dtos.LoginResponseDto;
-import com.exam.system.dtos.UserSignupRequestDto;
-import com.exam.system.dtos.UserSignupResponseDto;
+import com.exam.system.dtos.auth.LoginRequestDto;
+import com.exam.system.dtos.auth.LoginResponseDto;
+import com.exam.system.dtos.user.UserSignupRequestDto;
+import com.exam.system.dtos.user.UserSignupResponseDto;
 import com.exam.system.services.AuthService;
-import com.exam.system.services.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

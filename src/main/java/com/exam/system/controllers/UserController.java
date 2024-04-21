@@ -1,8 +1,6 @@
 package com.exam.system.controllers;
 
-import com.exam.system.dtos.UserResponseDto;
-import com.exam.system.dtos.UserSignupRequestDto;
-import com.exam.system.dtos.UserSignupResponseDto;
+import com.exam.system.dtos.user.UserResponseDto;
 import com.exam.system.services.IUserService;
 import com.exam.system.services.UserService;
 import org.springframework.web.bind.annotation.*;

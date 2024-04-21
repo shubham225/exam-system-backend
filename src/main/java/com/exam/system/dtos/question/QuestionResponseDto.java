@@ -1,5 +1,6 @@
-package com.exam.system.dtos;
+package com.exam.system.dtos.question;
 
+import com.exam.system.dtos.option.OptionResponseDto;
 import com.exam.system.enums.QuestionType;
 import com.exam.system.models.Option;
 import com.exam.system.models.Question;

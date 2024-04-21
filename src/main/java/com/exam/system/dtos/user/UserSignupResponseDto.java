@@ -1,4 +1,4 @@
-package com.exam.system.dtos;
+package com.exam.system.dtos.user;
 
 import com.exam.system.models.User;
 import lombok.Getter;

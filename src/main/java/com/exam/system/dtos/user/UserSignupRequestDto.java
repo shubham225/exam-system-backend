@@ -1,11 +1,13 @@
-package com.exam.system.dtos;
+package com.exam.system.dtos.user;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
+import java.util.Set;
+
 @Getter
-public class LoginRequestDto {
+@Setter
+public class UserSignupRequestDto {
     private String username;
     private String password;
 }

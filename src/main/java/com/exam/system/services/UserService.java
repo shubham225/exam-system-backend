@@ -1,7 +1,7 @@
 package com.exam.system.services;
 
-import com.exam.system.dtos.UserSignupRequestDto;
-import com.exam.system.dtos.UserSignupResponseDto;
+import com.exam.system.dtos.user.UserSignupRequestDto;
+import com.exam.system.dtos.user.UserSignupResponseDto;
 import com.exam.system.models.Role;
 import com.exam.system.models.User;
 import com.exam.system.repositories.RoleRepository;

@@ -1,9 +1,9 @@
 package com.exam.system.services;
 
-import com.exam.system.dtos.LoginRequestDto;
-import com.exam.system.dtos.LoginResponseDto;
-import com.exam.system.dtos.UserSignupRequestDto;
-import com.exam.system.dtos.UserSignupResponseDto;
+import com.exam.system.dtos.auth.LoginRequestDto;
+import com.exam.system.dtos.auth.LoginResponseDto;
+import com.exam.system.dtos.user.UserSignupRequestDto;
+import com.exam.system.dtos.user.UserSignupResponseDto;
 import com.exam.system.models.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

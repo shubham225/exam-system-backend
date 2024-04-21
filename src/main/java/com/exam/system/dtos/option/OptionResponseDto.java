@@ -1,4 +1,4 @@
-package com.exam.system.dtos;
+package com.exam.system.dtos.option;
 
 import com.exam.system.models.Option;
 import lombok.Getter;

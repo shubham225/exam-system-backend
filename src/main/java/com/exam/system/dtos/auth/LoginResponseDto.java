@@ -1,4 +1,4 @@
-package com.exam.system.dtos;
+package com.exam.system.dtos.auth;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.exam.system.dtos;
+package com.exam.system.dtos.question;
 
 import com.exam.system.enums.QuestionType;
 import com.exam.system.models.Question;

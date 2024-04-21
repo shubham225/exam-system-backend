@@ -1,6 +1,15 @@
 package com.exam.system.controllers;
 
-import com.exam.system.dtos.*;
+import com.exam.system.dtos.exam.ExamRequestDto;
+import com.exam.system.dtos.exam.ExamResponseDto;
+import com.exam.system.dtos.module.ModuleRequestDto;
+import com.exam.system.dtos.module.ModuleResponseDto;
+import com.exam.system.dtos.option.OptionRequestDto;
+import com.exam.system.dtos.option.OptionResponseDto;
+import com.exam.system.dtos.question.QuestionRequestDto;
+import com.exam.system.dtos.question.QuestionResponseDto;
+import com.exam.system.dtos.user.UserRequestDto;
+import com.exam.system.dtos.user.UserResponseDto;
 import com.exam.system.services.*;
 import org.springframework.web.bind.annotation.*;
 
