@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,7 +24,6 @@ public class AuthService {
     private final JwtEncoder jwtEncoder;
     private final AuthenticationManager authenticationManager;
     private final IUserService userService;
-
     public AuthService(JwtEncoder jwtEncoder,
                        AuthenticationManager authenticationManager,
                        UserService userService) {

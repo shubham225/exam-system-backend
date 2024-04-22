@@ -9,4 +9,6 @@ public interface IUserService {
     UserSignupResponseDto userSignup(UserSignupRequestDto request);
     UserResponseDto getUserDetails(long id);
     UserResponseDto getUserDetails(String username);
+
+    User getUserByUsername(String username);
 }
