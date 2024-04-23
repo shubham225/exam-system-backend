@@ -6,9 +6,9 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
+@Entity
 public class Role extends BaseModel{
     @Column(unique = true, nullable = false)
     private String role;
