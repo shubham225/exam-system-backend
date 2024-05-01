@@ -1,5 +1,7 @@
 package com.exam.system.models;
 
+import com.exam.system.enums.Degree;
+import com.exam.system.enums.Gender;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -31,6 +33,10 @@ public class User extends BaseModel {
     )
     private Set<Role> roles;
 
+    private String fullName;
+    private Gender gender;
+    private String institute;
+    private Degree degree;
     //Add extra user info if needed
 
     public User() {

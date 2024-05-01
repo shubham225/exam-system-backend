@@ -53,6 +53,10 @@ public class UserService implements IUserService {
         user.setActive(true);
         user.setUsername(userSignupRequestDto.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userSignupRequestDto.getPassword()));
+        user.setFullName(userSignupRequestDto.getFullName());
+        user.setGender(userSignupRequestDto.getGender());
+        user.setInstitute(userSignupRequestDto.getInstitute());
+        user.setDegree(userSignupRequestDto.getDegree());
         user.setCreatedOn(new Date());
 
         Optional<Role> roleOptional = roleRepository.findByRole(role);
