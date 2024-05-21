@@ -37,6 +37,7 @@ public class User extends BaseModel {
     private Gender gender;
     private String institute;
     private Degree degree;
+    private String address;
     //Add extra user info if needed
 
     public User() {

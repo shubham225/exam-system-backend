@@ -13,13 +13,16 @@ import com.exam.system.dtos.user.UserResponseDto;
 import com.exam.system.dtos.user.UserSignupRequestDto;
 import com.exam.system.dtos.user.UserSignupResponseDto;
 import com.exam.system.enums.QuestionType;
+import com.exam.system.exceptions.DataValidationError;
 import com.exam.system.models.*;
 import com.exam.system.models.Module;
 import com.exam.system.services.util.CommonMethods;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AdminService {
@@ -41,13 +44,13 @@ public class AdminService {
 
     public List<ExamResponseDto> getAllExams() {
         List<Exam> exams = examService.getAllExams();
-        List<ExamResponseDto> examResponseDtos = new ArrayList<>();
+        List<ExamResponseDto> examResponseDto = new ArrayList<>();
 
         for (Exam exam : exams) {
-            examResponseDtos.add(new ExamResponseDto(exam));
+            examResponseDto.add(new ExamResponseDto(exam));
         }
 
-        return examResponseDtos;
+        return examResponseDto;
     }
 
     public ExamResponseDto getExamById(long examId) {
@@ -56,14 +59,15 @@ public class AdminService {
     }
 
     public ExamResponseDto createExam(ExamRequestDto examRequestDto) {
-        Exam exam = examService.createNewExam(examRequestDto.getName(),
-                examRequestDto.getDescription());
+        Exam exam = examService.createNewExam(examRequestDto.getExamName(),
+                                              examRequestDto.getDescription());
         return new ExamResponseDto(exam);
     }
 
     public ExamResponseDto modifyExamById(long examId, ExamRequestDto examRequestDto) {
         Exam exam = examService.getExamById(examId);
         commonMethods.updateExamFromExamReqDto(exam, examRequestDto);
+        exam = examService.modifyExam(exam);
 
         return new ExamResponseDto(exam);
     }
@@ -75,15 +79,15 @@ public class AdminService {
 
     public List<ModuleResponseDto> getAllModulesByExamId(long examId) {
         List<Module> modules = moduleService.getAllModulesByExamId(examId);
-        List<ModuleResponseDto> moduleResponseDtos = new ArrayList<>();
+        List<ModuleResponseDto> moduleResponseDto = new ArrayList<>();
 
         for (Module module : modules) {
             ModuleResponseDto responseDto = new ModuleResponseDto(module);
             responseDto.setExamId(examId);
-            moduleResponseDtos.add(responseDto);
+            moduleResponseDto.add(responseDto);
         }
 
-        return moduleResponseDtos;
+        return moduleResponseDto;
     }
 
     public ModuleResponseDto getModuleById(long moduleId) {
@@ -94,7 +98,7 @@ public class AdminService {
 
     public ModuleResponseDto createModule(ModuleRequestDto moduleRequestDto) {
         Module module = moduleService.createNewModule(moduleRequestDto.getExamId(),
-                                                      moduleRequestDto.getName(),
+                                                      moduleRequestDto.getModuleName(),
                                                       moduleRequestDto.getDescription());
         return new ModuleResponseDto(module);
     }
@@ -102,6 +106,7 @@ public class AdminService {
     public ModuleResponseDto modifyModuleById(long moduleId, ModuleRequestDto moduleRequestDto) {
         Module module = moduleService.getModuleById(moduleId);
         commonMethods.updateModuleFromModuleReqDto(module, moduleRequestDto);
+        module = moduleService.modifyModule(module);
 
         return new ModuleResponseDto(module);
     }
@@ -133,15 +138,72 @@ public class AdminService {
     public QuestionResponseDto createQuestion(QuestionRequestDto questionRequestDto) {
         // TODO : handle Enums
         QuestionType questionType = QuestionType.SINGLE_CORRECT;
+
+        validateQuestion(questionRequestDto);
+
         Question question = questionService.createNewQuestion(questionRequestDto.getModuleId(),
                                                               questionRequestDto.getQuestionText(),
                                                               questionType);
+
+        createOptionsByQuestionId(question.getId(), questionRequestDto.getOptions());
+
+        question = questionService.getQuestionById(question.getId());
+
         return new QuestionResponseDto(question);
+    }
+
+    private void validateQuestion(QuestionRequestDto questionRequestDto) {
+        Set<OptionRequestDto> optionsDto = questionRequestDto.getOptions();
+
+        if(optionsDto.size() < 2) {
+            throw new DataValidationError("Question should have at least 2 options");
+        }
+
+        boolean found = false;
+
+        for(OptionRequestDto o : optionsDto) {
+            if(o.isAnswer()) {
+                found = true;
+                break;
+            }
+        }
+
+        if(!found) throw new DataValidationError("Question should have at least one answer");
+
     }
 
     public QuestionResponseDto modifyQuestionById(long questionId, QuestionRequestDto questionRequestDto) {
         Question question = questionService.getQuestionById(questionId);
         commonMethods.updateQuestionFromQuestionReqDto(question, questionRequestDto);
+
+        validateQuestion(questionRequestDto);
+        Set<Option> toDelete = new HashSet<>();
+        // Handle Deleted Options
+        for(Option option : question.getOptions()) {
+            boolean optionFound = false;
+
+            for(OptionRequestDto optionDto : questionRequestDto.getOptions()) {
+                if(option.getId() == optionDto.getId()) {
+                    optionFound = true;
+                    break;
+                }
+            }
+
+            if(!optionFound) {
+                optionService.deleteOption(option.getId());
+            }
+        }
+//        question.getOptions().removeAll(toDelete);
+        question = questionService.modifyQuestion(question);
+
+        // Handle New / Modified Options
+        for(OptionRequestDto optionDto : questionRequestDto.getOptions()) {
+            if(optionDto.getId() == 0)
+                optionService.createNewOption(question.getId(), optionDto.getOptionText(), optionDto.isAnswer());
+            else
+                modifyOptionById(optionDto.getId(), optionDto);
+        }
+
 
         return new QuestionResponseDto(question);
     }
@@ -164,8 +226,8 @@ public class AdminService {
         return optionResponseDtos;
     }
 
-    public List<OptionResponseDto> createOptionsByQuestionId(long questionId, List<OptionRequestDto> optionRequestDto) {
-        List<OptionResponseDto> optionResponseDtos = new ArrayList<>();
+    public Set<OptionResponseDto> createOptionsByQuestionId(long questionId, Set<OptionRequestDto> optionRequestDto) {
+        Set<OptionResponseDto> optionResponseDtos = new HashSet<>();
 
         for(OptionRequestDto requestDto : optionRequestDto) {
             Option option = optionService.createNewOption(questionId,
@@ -179,6 +241,8 @@ public class AdminService {
     public OptionResponseDto modifyOptionById(long optionId, OptionRequestDto optionRequestDto) {
         Option option = optionService.getOptionById(optionId);
         commonMethods.updateOptionFromOptionReqDto(option, optionRequestDto);
+
+        option = optionService.modifyOption(option);
 
         return new OptionResponseDto(option);
     }
@@ -198,4 +262,5 @@ public class AdminService {
     public UserResponseDto assignExamsToUsersById(long examId, List<UserRequestDto> userRequestDto) {
         return null;
     }
+
 }

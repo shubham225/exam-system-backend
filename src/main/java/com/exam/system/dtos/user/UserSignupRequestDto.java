@@ -10,10 +10,11 @@ import java.util.Set;
 @Getter
 @Setter
 public class UserSignupRequestDto {
-    private String username;
-    private String password;
     private String fullName;
-    private Gender gender;
+    private String email;
+    private String password;
+    private String gender;
     private String institute;
-    private Degree degree;
+    private int degree;
+    private String address;
 }

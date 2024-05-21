@@ -3,6 +3,8 @@ package com.exam.system.services;
 import com.exam.system.dtos.user.UserResponseDto;
 import com.exam.system.dtos.user.UserSignupRequestDto;
 import com.exam.system.dtos.user.UserSignupResponseDto;
+import com.exam.system.enums.Degree;
+import com.exam.system.enums.Gender;
 import com.exam.system.models.Role;
 import com.exam.system.models.User;
 import com.exam.system.repositories.RoleRepository;
@@ -51,12 +53,14 @@ public class UserService implements IUserService {
                            String role) {
         User user = new User();
         user.setActive(true);
-        user.setUsername(userSignupRequestDto.getUsername());
+        user.setUsername(userSignupRequestDto.getEmail());
         user.setPassword(bCryptPasswordEncoder.encode(userSignupRequestDto.getPassword()));
         user.setFullName(userSignupRequestDto.getFullName());
-        user.setGender(userSignupRequestDto.getGender());
+        user.setGender(Gender.valueOf(userSignupRequestDto.getGender()));
         user.setInstitute(userSignupRequestDto.getInstitute());
-        user.setDegree(userSignupRequestDto.getDegree());
+        // TODO: change below function to take userSignupRequestDto.getDegree();
+        user.setDegree(Degree.BE);
+        user.setAddress(userSignupRequestDto.getAddress());
         user.setCreatedOn(new Date());
 
         Optional<Role> roleOptional = roleRepository.findByRole(role);

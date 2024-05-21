@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ExamRequestDto {
-    private String name;
+    private String examName;
     private String description;
 }

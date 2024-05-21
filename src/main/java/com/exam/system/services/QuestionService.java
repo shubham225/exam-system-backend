@@ -1,6 +1,7 @@
 package com.exam.system.services;
 
 import com.exam.system.enums.QuestionType;
+import com.exam.system.exceptions.DataValidationError;
 import com.exam.system.exceptions.QuestionNotFoundException;
 import com.exam.system.models.Module;
 import com.exam.system.models.Option;

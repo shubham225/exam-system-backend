@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommonMethods {
     public void updateExamFromExamReqDto(Exam exam, ExamRequestDto examRequestDto) {
-        exam.setName(examRequestDto.getName());
+        exam.setName(examRequestDto.getExamName());
         exam.setDescription(examRequestDto.getDescription());
     }
 
     public void updateModuleFromModuleReqDto(Module module, ModuleRequestDto moduleRequestDto) {
-        module.setName(moduleRequestDto.getName());
+        module.setName(moduleRequestDto.getModuleName());
         module.setDescription(moduleRequestDto.getDescription());
     }
 

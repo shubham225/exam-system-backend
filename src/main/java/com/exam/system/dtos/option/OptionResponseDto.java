@@ -9,13 +9,13 @@ import lombok.Setter;
 public class OptionResponseDto {
     private long id;
     private String optionText;
-    private long questionId;
+    private boolean isAnswer;
 
     public OptionResponseDto() {}
 
     public OptionResponseDto(Option option) {
         this.id = option.getId();
         this.optionText = option.getOptionText();
-        this.questionId = option.getQuestion().getId();
+        this.isAnswer = option.isAnswer();
     }
 }

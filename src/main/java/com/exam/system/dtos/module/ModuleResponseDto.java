@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class ModuleResponseDto {
     private long id;
-    private String name;
+    private String moduleName;
     private String description;
     private long examId;
 
@@ -18,7 +18,7 @@ public class ModuleResponseDto {
 
     public  ModuleResponseDto(Module module) {
         this.id = module.getId();
-        this.name = module.getName();
+        this.moduleName = module.getName();
         this.description = module.getDescription();
     }
 }

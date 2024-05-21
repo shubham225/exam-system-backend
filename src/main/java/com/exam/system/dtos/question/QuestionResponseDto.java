@@ -14,19 +14,20 @@ import java.util.Set;
 @Setter
 public class QuestionResponseDto {
     private long id;
-    private String questionText;
-    private QuestionType type;
-    private Set<OptionResponseDto> options;
     private long moduleId;
+    private String questionText;
+    private String type;
+    private Set<OptionResponseDto> options;
 
     public QuestionResponseDto() {}
 
     public QuestionResponseDto(Question question) {
         this.id = question.getId();
         this.questionText = question.getQuestionText();
-        this.type = question.getQuestionType();
+        this.type = question.getQuestionType().toString();
         this.moduleId = question.getModule().getId();
         Set<Option> options = question.getOptions();
+
         if(options != null) {
             this.options = new HashSet<>();
             for (Option option : options)

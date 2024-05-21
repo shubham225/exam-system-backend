@@ -58,7 +58,7 @@ public class AuthService {
         User user = userService.getUserByUsername(request.getUsername());
         String token = generateAuthToken(authentication);
 
-        return new LoginResponseDto(user.getId(), user.getUsername(), token);
+        return new LoginResponseDto(user.getId(), user.getUsername(), token, user.getRoles());
     }
 
     public UserSignupResponseDto userSignup(UserSignupRequestDto userSignupRequestDto) {

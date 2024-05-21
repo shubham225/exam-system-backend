@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class ExamResponseDto {
     private long id;
-    private String name;
+    private String examName;
     private String description;
 
     public ExamResponseDto() {
@@ -17,7 +17,7 @@ public class ExamResponseDto {
 
     public  ExamResponseDto(Exam exam) {
         this.id = exam.getId();
-        this.name = exam.getName();
+        this.examName = exam.getName();
         this.description = exam.getDescription();
     }
 }

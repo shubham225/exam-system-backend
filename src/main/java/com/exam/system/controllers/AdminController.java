@@ -14,6 +14,7 @@ import com.exam.system.services.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/V1/admin")
@@ -159,8 +160,8 @@ public class AdminController {
             method = RequestMethod.POST,
             path = "/question/{questionId}/option"
     )
-    public List<OptionResponseDto> createOptionsByQuestionId(@PathVariable long questionId,
-                                                             @RequestBody List<OptionRequestDto> optionRequestDto){
+    public Set<OptionResponseDto> createOptionsByQuestionId(@PathVariable long questionId,
+                                                             @RequestBody Set<OptionRequestDto> optionRequestDto){
         return adminService.createOptionsByQuestionId(questionId, optionRequestDto);
     }
 
