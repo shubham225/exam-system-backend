@@ -145,11 +145,13 @@ public class AdminService {
                                                               questionRequestDto.getQuestionText(),
                                                               questionType);
 
-        createOptionsByQuestionId(question.getId(), questionRequestDto.getOptions());
+        Set<OptionResponseDto> optionsDto = createOptionsByQuestionId(question.getId(), questionRequestDto.getOptions());
 
         question = questionService.getQuestionById(question.getId());
+        QuestionResponseDto responseDto = new QuestionResponseDto(question);
+        responseDto.setOptions(optionsDto);
 
-        return new QuestionResponseDto(question);
+        return responseDto ;
     }
 
     private void validateQuestion(QuestionRequestDto questionRequestDto) {
@@ -204,6 +206,7 @@ public class AdminService {
                 modifyOptionById(optionDto.getId(), optionDto);
         }
 
+        question = questionService.getQuestionById(questionId);
 
         return new QuestionResponseDto(question);
     }
