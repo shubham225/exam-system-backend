@@ -1,6 +1,6 @@
-package com.exam.system.dtos.question;
+package com.exam.system.dtos.admin.question;
 
-import com.exam.system.dtos.option.OptionRequestDto;
+import com.exam.system.dtos.admin.option.OptionRequestDto;
 
 import java.util.Set;
 

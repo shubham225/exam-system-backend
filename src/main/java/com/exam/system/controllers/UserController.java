@@ -24,7 +24,7 @@ public class UserController {
 
     @RequestMapping(
             method = RequestMethod.GET,
-            path = "{username}"
+            path = "name/{username}"
     )
     public UserResponseDto getUserById(@PathVariable String username) {
         return userService.getUserDetails(username);

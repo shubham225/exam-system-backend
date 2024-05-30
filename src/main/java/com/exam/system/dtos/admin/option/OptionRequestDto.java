@@ -1,4 +1,4 @@
-package com.exam.system.dtos.option;
+package com.exam.system.dtos.admin.option;
 
 import lombok.Getter;
 import lombok.Setter;

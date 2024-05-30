@@ -1,9 +1,9 @@
 package com.exam.system.services.util;
 
-import com.exam.system.dtos.exam.ExamRequestDto;
-import com.exam.system.dtos.module.ModuleRequestDto;
-import com.exam.system.dtos.option.OptionRequestDto;
-import com.exam.system.dtos.question.QuestionRequestDto;
+import com.exam.system.dtos.admin.exam.ExamRequestDto;
+import com.exam.system.dtos.admin.module.ModuleRequestDto;
+import com.exam.system.dtos.admin.option.OptionRequestDto;
+import com.exam.system.dtos.admin.question.QuestionRequestDto;
 import com.exam.system.models.Exam;
 import com.exam.system.models.Module;
 import com.exam.system.models.Option;

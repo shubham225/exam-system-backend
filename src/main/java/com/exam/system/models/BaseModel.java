@@ -23,4 +23,9 @@ public class BaseModel {
     private long id;
     private boolean isActive;
     private Date createdOn;
+
+    public BaseModel() {
+        isActive = true;
+        createdOn = new Date();
+    }
 }

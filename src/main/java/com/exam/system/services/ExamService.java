@@ -37,12 +37,12 @@ public class ExamService {
     }
 
     public Exam createNewExam(String name,
-                              String description) {
+                              String description,
+                              int duration) {
         Exam exam = new Exam();
         exam.setName(name);
         exam.setDescription(description);
-        exam.setCreatedOn(new Date());
-        exam.setActive(true);
+        exam.setDuration(duration);
 
         exam = examRepository.save(exam);
 

@@ -1,4 +1,4 @@
-package com.exam.system.dtos.exam;
+package com.exam.system.dtos.admin.exam;
 
 import com.exam.system.models.Exam;
 import lombok.Getter;
@@ -10,6 +10,7 @@ public class ExamResponseDto {
     private long id;
     private String examName;
     private String description;
+    private int duration;
 
     public ExamResponseDto() {
 

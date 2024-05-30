@@ -1,19 +1,20 @@
 package com.exam.system.services;
 
-import com.exam.system.dtos.exam.ExamRequestDto;
-import com.exam.system.dtos.exam.ExamResponseDto;
-import com.exam.system.dtos.module.ModuleRequestDto;
-import com.exam.system.dtos.module.ModuleResponseDto;
-import com.exam.system.dtos.option.OptionRequestDto;
-import com.exam.system.dtos.option.OptionResponseDto;
-import com.exam.system.dtos.question.QuestionRequestDto;
-import com.exam.system.dtos.question.QuestionResponseDto;
+import com.exam.system.dtos.admin.exam.ExamRequestDto;
+import com.exam.system.dtos.admin.exam.ExamResponseDto;
+import com.exam.system.dtos.admin.module.ModuleRequestDto;
+import com.exam.system.dtos.admin.module.ModuleResponseDto;
+import com.exam.system.dtos.admin.option.OptionRequestDto;
+import com.exam.system.dtos.admin.option.OptionResponseDto;
+import com.exam.system.dtos.admin.question.QuestionRequestDto;
+import com.exam.system.dtos.admin.question.QuestionResponseDto;
 import com.exam.system.dtos.user.UserRequestDto;
 import com.exam.system.dtos.user.UserResponseDto;
 import com.exam.system.dtos.user.UserSignupRequestDto;
 import com.exam.system.dtos.user.UserSignupResponseDto;
 import com.exam.system.enums.QuestionType;
 import com.exam.system.exceptions.DataValidationError;
+import com.exam.system.exceptions.ExamAlreadyAssignedException;
 import com.exam.system.models.*;
 import com.exam.system.models.Module;
 import com.exam.system.services.util.CommonMethods;
@@ -32,14 +33,16 @@ public class AdminService {
     private final OptionService optionService;
     private final UserService userService;
     private final CommonMethods commonMethods;
+    private final StudentExamService studentExamService;
 
-    public AdminService(ExamService examService, ModuleService moduleService, QuestionService questionService, OptionService optionService, UserService userService, CommonMethods commonMethods) {
+    public AdminService(ExamService examService, ModuleService moduleService, QuestionService questionService, OptionService optionService, UserService userService, CommonMethods commonMethods, StudentExamService studentExamService) {
         this.examService = examService;
         this.moduleService = moduleService;
         this.questionService = questionService;
         this.optionService = optionService;
         this.userService = userService;
         this.commonMethods = commonMethods;
+        this.studentExamService = studentExamService;
     }
 
     public List<ExamResponseDto> getAllExams() {
@@ -60,7 +63,8 @@ public class AdminService {
 
     public ExamResponseDto createExam(ExamRequestDto examRequestDto) {
         Exam exam = examService.createNewExam(examRequestDto.getExamName(),
-                                              examRequestDto.getDescription());
+                                              examRequestDto.getDescription(),
+                                              examRequestDto.getDuration());
         return new ExamResponseDto(exam);
     }
 
@@ -263,6 +267,18 @@ public class AdminService {
     }
 
     public UserResponseDto assignExamsToUsersById(long examId, List<UserRequestDto> userRequestDto) {
+        // TODO : Implementation Remaining
+
+//            Exam exam = examService.getExamById(examId);
+//
+//            for(UserRequestDto user : userRequestDto) {
+//                User student = userService.getUserById(user.getUserId());
+//
+//                if(studentExamService.isExamAssignedToStudent(exam, student))
+//                    continue;
+//
+//                studentExamService.assignExamsToUserId(student, exam);
+//            }
         return null;
     }
 

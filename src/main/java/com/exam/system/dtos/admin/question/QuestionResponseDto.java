@@ -1,7 +1,6 @@
-package com.exam.system.dtos.question;
+package com.exam.system.dtos.admin.question;
 
-import com.exam.system.dtos.option.OptionResponseDto;
-import com.exam.system.enums.QuestionType;
+import com.exam.system.dtos.admin.option.OptionResponseDto;
 import com.exam.system.models.Option;
 import com.exam.system.models.Question;
 import lombok.Getter;

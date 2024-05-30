@@ -14,6 +14,8 @@ public class Exam extends BaseModel{
     @Column(nullable = false, unique = true)
     private String name;
     private String description;
+    private int duration;
+
     @ManyToMany(
             mappedBy = "exam",
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}

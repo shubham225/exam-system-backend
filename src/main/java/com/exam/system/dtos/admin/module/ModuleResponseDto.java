@@ -1,4 +1,4 @@
-package com.exam.system.dtos.module;
+package com.exam.system.dtos.admin.module;
 
 import com.exam.system.models.Exam;
 import com.exam.system.models.Module;

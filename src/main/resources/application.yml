@@ -36,7 +36,7 @@ rsa:
 
 # Frontend Config
 frontend:
-  url: http://localhost:3006/
+  url: http://localhost:3000/
 
 # Logging Configuration
 logging:

@@ -1,4 +1,4 @@
-package com.exam.system.dtos.module;
+package com.exam.system.dtos.admin.module;
 
 import lombok.Getter;
 import lombok.Setter;

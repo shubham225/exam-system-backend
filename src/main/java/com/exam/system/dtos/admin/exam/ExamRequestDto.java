@@ -1,4 +1,4 @@
-package com.exam.system.dtos.exam;
+package com.exam.system.dtos.admin.exam;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,4 +8,5 @@ import lombok.Setter;
 public class ExamRequestDto {
     private String examName;
     private String description;
+    private int duration;
 }
