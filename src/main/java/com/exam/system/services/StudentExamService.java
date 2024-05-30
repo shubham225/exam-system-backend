@@ -82,4 +82,8 @@ public class StudentExamService {
     public StudentExam saveStudentExam(StudentExam exam) {
         return studentExamRepository.save(exam);
     }
+
+    public List<StudentExam> getAllStudentExams() {
+        return studentExamRepository.findAll();
+    }
 }

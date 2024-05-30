@@ -8,10 +8,9 @@ import com.exam.system.dtos.admin.option.OptionRequestDto;
 import com.exam.system.dtos.admin.option.OptionResponseDto;
 import com.exam.system.dtos.admin.question.QuestionRequestDto;
 import com.exam.system.dtos.admin.question.QuestionResponseDto;
-import com.exam.system.dtos.user.UserRequestDto;
-import com.exam.system.dtos.user.UserResponseDto;
-import com.exam.system.dtos.user.UserSignupRequestDto;
-import com.exam.system.dtos.user.UserSignupResponseDto;
+import com.exam.system.dtos.admin.result.ResultResponseDto;
+import com.exam.system.dtos.user.*;
+import com.exam.system.enums.ExamStatus;
 import com.exam.system.enums.QuestionType;
 import com.exam.system.exceptions.DataValidationError;
 import com.exam.system.exceptions.ExamAlreadyAssignedException;
@@ -20,10 +19,7 @@ import com.exam.system.models.Module;
 import com.exam.system.services.util.CommonMethods;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class AdminService {
@@ -266,20 +262,47 @@ public class AdminService {
         return new UserSignupResponseDto(user);
     }
 
-    public UserResponseDto assignExamsToUsersById(long examId, List<UserRequestDto> userRequestDto) {
-        // TODO : Implementation Remaining
+    public List<UserExamAssignmentResponseDto> assignExamsToUsersById(long examId, List<Integer> userRequestDto) {
+        Exam exam = examService.getExamById(examId);
+        List<UserExamAssignmentResponseDto> responseDtoList = new ArrayList<>();
 
-//            Exam exam = examService.getExamById(examId);
-//
-//            for(UserRequestDto user : userRequestDto) {
-//                User student = userService.getUserById(user.getUserId());
-//
-//                if(studentExamService.isExamAssignedToStudent(exam, student))
-//                    continue;
-//
-//                studentExamService.assignExamsToUserId(student, exam);
-//            }
-        return null;
+        for(Integer userId : userRequestDto) {
+            User student = userService.getUserById(userId);
+
+            if(studentExamService.isExamAssignedToStudent(exam, student)) {
+                responseDtoList.add(new UserExamAssignmentResponseDto(student, false));
+                continue;
+            }
+
+            studentExamService.assignExamsToUserId(student, exam);
+            responseDtoList.add(new UserExamAssignmentResponseDto(student, true));
+        }
+
+        return responseDtoList;
     }
 
+    class StudentExamComparator implements Comparator<StudentExam> {
+        @Override
+        public int compare(StudentExam a, StudentExam b) {
+            return b.getScore() - a.getScore();
+        }
+    }
+
+    public List<ResultResponseDto> getResultOfAllUsers() {
+        // TODO : This is a dummy method logic needs to be improved
+        List<ResultResponseDto> responseDtoList = new ArrayList<>();
+        List<StudentExam> studentExams = studentExamService.getAllStudentExams();
+
+        studentExams.sort(new StudentExamComparator());
+
+        int rank = 0;
+        for(StudentExam exam : studentExams) {
+            if(exam.getStatus() == ExamStatus.COMPLETED) {
+                rank++;
+                responseDtoList.add(new ResultResponseDto(exam.getStudent(), rank, (String.valueOf(exam.getScore()) + " / " + String.valueOf(exam.getMaxScore())), exam.getExam().getName()));
+            }
+        }
+
+        return responseDtoList;
+    }
 }

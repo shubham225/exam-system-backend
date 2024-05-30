@@ -20,6 +20,7 @@ public class StudentExam extends BaseModel{
     @ManyToOne
     private User student;
     private int score;
+    private int maxScore;
 
     public StudentExam() {
         this.status = ExamStatus.PENDING;

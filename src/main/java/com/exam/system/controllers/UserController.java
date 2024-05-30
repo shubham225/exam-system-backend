@@ -5,6 +5,8 @@ import com.exam.system.services.IUserService;
 import com.exam.system.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/V1/user")
 public class UserController {
@@ -12,6 +14,14 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            path = ""
+    )
+    public List<UserResponseDto> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     @RequestMapping(
@@ -26,7 +36,7 @@ public class UserController {
             method = RequestMethod.GET,
             path = "name/{username}"
     )
-    public UserResponseDto getUserById(@PathVariable String username) {
-        return userService.getUserDetails(username);
+    public UserResponseDto getUserByName(@PathVariable String username) {
+        return new UserResponseDto(userService.getUserByUsername(username));
     }
 }

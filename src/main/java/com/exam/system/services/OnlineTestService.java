@@ -9,8 +9,10 @@ import com.exam.system.dtos.exam.question.UpdateQuestionByIdRequestDto;
 import com.exam.system.enums.ExamStatus;
 import com.exam.system.exceptions.ExamAlreadyAssignedException;
 import com.exam.system.models.*;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.lang.Module;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -109,6 +111,25 @@ public class OnlineTestService {
             exam.setStartTime(new Date());
         } else if(exam.getStatus() == ExamStatus.IN_PROGRESS && examDto.getStatus() == ExamStatus.COMPLETED) {
             exam.setEndTime(new Date());
+
+            // Calculate Score
+            int score = 0;
+            int maxScore = 0;
+            List<StudentModule> modules = studentModuleService.getAllModulesByExam(exam);
+
+            for(StudentModule module : modules) {
+                List<StudentQuestion> questions = studentQuestionService.getAllQuestionsByModule(module);
+
+                for(StudentQuestion question : questions) {
+                    maxScore++;
+
+                    if(question.getAnswer() != null && question.getAnswer().isAnswer())
+                        score++;
+                }
+            }
+
+            exam.setScore(score);
+            exam.setMaxScore(maxScore);
         }
 
         exam.setStatus(examDto.getStatus());

@@ -20,5 +20,6 @@ public class ExamResponseDto {
         this.id = exam.getId();
         this.examName = exam.getName();
         this.description = exam.getDescription();
+        this.duration = exam.getDuration();
     }
 }

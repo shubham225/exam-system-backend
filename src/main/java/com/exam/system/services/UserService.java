@@ -13,9 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService implements IUserService {
@@ -82,6 +80,22 @@ public class UserService implements IUserService {
             throw new UsernameNotFoundException("User '"+ username + "' doesn't exists");
 
         return userOptional.get();
+    }
+
+    @Override
+    public List<UserResponseDto> getAllUsers() {
+        List<User> userList = userRepository.findAll();
+        List<UserResponseDto> userDtos = new ArrayList<>();
+
+        for(User user : userList) {
+            Optional<Role> userRole = user.getRoles().stream().filter(role -> "USER".equals(role.getRole())).findAny();
+
+            if (userRole.isPresent()) {
+                userDtos.add(new UserResponseDto(user));
+            }
+        }
+
+        return userDtos;
     }
 
     public User getUserById(long id) {

@@ -15,6 +15,7 @@ public class CommonMethods {
     public void updateExamFromExamReqDto(Exam exam, ExamRequestDto examRequestDto) {
         exam.setName(examRequestDto.getExamName());
         exam.setDescription(examRequestDto.getDescription());
+        exam.setDuration(examRequestDto.getDuration());
     }
 
     public void updateModuleFromModuleReqDto(Module module, ModuleRequestDto moduleRequestDto) {

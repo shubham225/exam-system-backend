@@ -8,8 +8,11 @@ import com.exam.system.dtos.admin.option.OptionRequestDto;
 import com.exam.system.dtos.admin.option.OptionResponseDto;
 import com.exam.system.dtos.admin.question.QuestionRequestDto;
 import com.exam.system.dtos.admin.question.QuestionResponseDto;
+import com.exam.system.dtos.admin.result.ResultResponseDto;
+import com.exam.system.dtos.user.UserExamAssignmentResponseDto;
 import com.exam.system.dtos.user.UserRequestDto;
 import com.exam.system.dtos.user.UserResponseDto;
+import com.exam.system.models.User;
 import com.exam.system.services.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -186,9 +189,16 @@ public class AdminController {
             method = RequestMethod.POST,
             path = "/exam/{examId}/assign"
     )
-    public UserResponseDto assignExamsToUsers(@PathVariable long examId,
-                                              @RequestBody List<UserRequestDto> userRequestDto) {
+    public List<UserExamAssignmentResponseDto> assignExamsToUsers(@PathVariable long examId,
+                                                                  @RequestBody List<Integer> userRequestDto) {
         return adminService.assignExamsToUsersById(examId, userRequestDto);
     }
 
+    @RequestMapping(
+            method = RequestMethod.GET,
+            path = "/result"
+    )
+    public List<ResultResponseDto> getResultOfAllUsers() {
+        return adminService.getResultOfAllUsers();
+    }
 }
