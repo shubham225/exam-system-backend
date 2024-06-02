@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Option extends BaseModel {
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String optionText;
     @ManyToOne
     private Question question;

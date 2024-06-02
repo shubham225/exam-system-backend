@@ -11,15 +11,7 @@ import java.util.Date;
 @MappedSuperclass
 public class BaseModel {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "sequence_generator"
-    )
-    @SequenceGenerator(
-            name = "sequence_generator",
-            initialValue = 1000,
-            allocationSize = 1
-    )
+    @GeneratedValue
     private long id;
     private boolean isActive;
     private Date createdOn;
