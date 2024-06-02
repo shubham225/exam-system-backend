@@ -284,7 +284,7 @@ public class AdminService {
     class StudentExamComparator implements Comparator<StudentExam> {
         @Override
         public int compare(StudentExam a, StudentExam b) {
-            return b.getScore() - a.getScore();
+            return ((b.getScore()) - (a.getScore()));
         }
     }
 
@@ -296,10 +296,20 @@ public class AdminService {
         studentExams.sort(new StudentExamComparator());
 
         int rank = 0;
+        String examName = "";
         for(StudentExam exam : studentExams) {
+            if (!examName.equals(exam.getExam().getName())) {
+                rank = 0;
+                examName = exam.getExam().getName();
+            }
+
             if(exam.getStatus() == ExamStatus.COMPLETED) {
                 rank++;
-                responseDtoList.add(new ResultResponseDto(exam.getStudent(), rank, (String.valueOf(exam.getScore()) + " / " + String.valueOf(exam.getMaxScore())), exam.getExam().getName()));
+
+                responseDtoList.add(new ResultResponseDto(exam.getStudent(), rank,
+                               (String.valueOf(exam.getScore()) + " / " +
+                                String.valueOf(exam.getMaxScore()) ),
+                        exam.getExam().getName()));
             }
         }
 
