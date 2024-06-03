@@ -75,7 +75,7 @@ public class ExamController {
             path = "exam/{id}"
     )
     public ExamByUserIdResponseDto updateExamById(@PathVariable long id,
-                                                     @RequestBody ExamByUserIdRequestDto exam) {
+                                                  @RequestBody ExamByUserIdRequestDto exam) {
         return onlineTestService.updateExamById(id, exam);
     }
 }

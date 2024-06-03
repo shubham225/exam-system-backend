@@ -11,6 +11,15 @@ Before you begin, ensure you have met the following requirements:
 - **Maven:** The project uses Maven as the build system. Install Maven by following the instructions [here](https://maven.apache.org/install.html).
 - **Database**: Set up a MySQL or MariaDB database server. You can install MySQL or MariaDB server locally on your development machine or use a cloud-based database service. You can download MySQL from the [official MySQL website](https://dev.mysql.com/downloads/) or MariaDB from the [official MariaDB website](https://mariadb.org/download/).
 
+## Features
+
+- User registration: Allows users to create new accounts by providing necessary details.
+- User login: Provides authentication mechanisms for registered users to log in securely.
+- Role-based access control (RBAC): Implements different user roles with varying levels of access permissions.
+- Token-based authentication: Utilizes JSON Web Tokens (JWT) for secure user authentication.
+- Password hashing: Ensures user password security by hashing and storing them securely using bCrypt encoder.
+- RESTful API: Provides a clean and efficient API for frontend integration.
+
 ## Getting Started
 
 To get a local copy up and running, follow these simple steps:
@@ -42,6 +51,53 @@ To properly configure and run this project, you will need to set up the followin
 - **FRONTEND_URL**: Set this variable to the URL of frontend to allow CORS, default value is `http://localhost:3000`.
 
 Make sure to set these environment variables either directly in your development environment or using a configuration file such as `application.properties` or `application.yml` for local development. Additionally, when deploying your Spring Boot application, you can configure these variables through your deployment environment settings.
+
+## API Endpoints
+Here are some of the key API endpoints provided by the online-exam system backend:
+### Authentication Endpoints
+- **`POST /api/V1/auth/login`:** Authenticate a user and generate a JWT token.Requires providing valid credentials (email and password) in the request body.
+- **`POST /api/V1/auth/register`:** Register a new user to participate in the exam.
+
+### Admin Endpoints
+- **`GET /api/V1/admin/exam`:** Get details of all available exams.
+- **`POST /api/V1/admin/exam`:** Creates a new exam.
+- **`GET /api/V1/admin/exam/:id`:** Get exam details by ID.
+- **`PUT /api/V1/admin/exam/:id`:** Updates exam details by ID.
+- **`DELETE /api/V1/admin/exam/:id`:** Deletes exam by ID.
+- **`POST /exam/:id/assign`:** Takes list of user Ids and assign exam to those users.
+- **`GET /api/V1/admin/result`:** Get Result of all exams.
+
+### Exam Endpoints
+- **`GET /api/V1/test/user/:id/exams`:** Get details of all exams assigned to user having id as :id.
+- **`GET /api/V1/test/exam/:id/modules`:** Get details of all modules linked to exam having id as :id.
+- **`GET /api/V1/test/module/:id/questions`:** Get details of all questions linked to module having id as :id.
+- **`GET /api/V1/test/question/:id`:** Get details of question by ID.
+- **`PUT /api/V1/test/question/:id`:** Updates user question details by ID.
+- **`PUT /api/V1/test/exam/:id`:** Updates user exam details by ID.
+
+### User Endpoints [Admin privileges]
+- **`/api/V1/user`:** Get all users details.
+- **`/api/V1/user/:id`:** Get user details by ID.
+
+Refer to the [API Documentation](./docs/DOCUMENTATION.md) for a complete list of endpoints and their usage.
+
+## Generating New RSA Certificates
+Before getting started, ensure you have OpenSSL installed on your system. If not, you can download and install it from [OpenSSL website](https://www.openssl.org/).
+1. Navigate to the certificates directory :
+   ```bash
+   cd src/main/resources/certs/
+2. Run the following command to generate a 2048-bit RSA private key:
+   ```bash
+   openssl genrsa -out keypair.pem 2048
+3. Next, extract the public key from the private key generated in the previous step using the following command:
+    ```bash
+   openssl rsa -in keypair.pem -pubout -out public.pem
+
+4. For compatibility and ease of use, convert the private key to PKCS#8 format using the following command:
+    ```bash
+   openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in keypair.pem -out private.pem
+
+5. Above commands will create three files in the `certificates` directory: `keypair.pem`, `public.pem`, and `private.pem`. We don't need `keypair.pem`; this file can be deleted. The other two files will serve as the private and public keys for signing and validating JWT.
 
 ## License
 

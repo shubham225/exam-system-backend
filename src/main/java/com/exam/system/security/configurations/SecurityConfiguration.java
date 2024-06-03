@@ -67,6 +67,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/V1/auth/login").permitAll()
                         .requestMatchers("/api/V1/auth/register").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
+                        .requestMatchers("/api/V1/user/**").hasAnyAuthority("SCOPE_ROLE_ADMIN")
                         .requestMatchers("/api/V1/admin/**").hasAnyAuthority("SCOPE_ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
