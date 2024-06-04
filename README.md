@@ -76,8 +76,8 @@ Here are some of the key API endpoints provided by the online-exam system backen
 - **`PUT /api/V1/test/exam/:id`:** Updates user exam details by ID.
 
 ### User Endpoints [Admin privileges]
-- **`/api/V1/user`:** Get all users details.
-- **`/api/V1/user/:id`:** Get user details by ID.
+- **`GET /api/V1/user`:** Get all users details.
+- **`GET /api/V1/user/:id`:** Get user details by ID.
 
 Refer to the [API Documentation](./docs/DOCUMENTATION.md) for a complete list of endpoints and their usage.
 
