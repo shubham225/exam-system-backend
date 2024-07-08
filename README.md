@@ -61,23 +61,23 @@ Here are some of the key API endpoints provided by the online-exam system backen
 ### Admin Endpoints
 - **`GET /api/V1/admin/exam`:** Get details of all available exams.
 - **`POST /api/V1/admin/exam`:** Creates a new exam.
-- **`GET /api/V1/admin/exam/:id`:** Get exam details by ID.
-- **`PUT /api/V1/admin/exam/:id`:** Updates exam details by ID.
-- **`DELETE /api/V1/admin/exam/:id`:** Deletes exam by ID.
-- **`POST /exam/:id/assign`:** Takes list of user Ids and assign exam to those users.
+- **`GET /api/V1/admin/exam/{id}`:** Get exam details by ID.
+- **`PUT /api/V1/admin/exam/{id}`:** Updates exam details by ID.
+- **`DELETE /api/V1/admin/exam/{id}`:** Deletes exam by ID.
+- **`POST /api/V1/exam/{id}/assign`:** Takes list of user Ids and assign exam to those users.
 - **`GET /api/V1/admin/result`:** Get Result of all exams.
 
 ### Exam Endpoints
-- **`GET /api/V1/test/user/:id/exams`:** Get details of all exams assigned to user having id as :id.
-- **`GET /api/V1/test/exam/:id/modules`:** Get details of all modules linked to exam having id as :id.
-- **`GET /api/V1/test/module/:id/questions`:** Get details of all questions linked to module having id as :id.
-- **`GET /api/V1/test/question/:id`:** Get details of question by ID.
-- **`PUT /api/V1/test/question/:id`:** Updates user question details by ID.
-- **`PUT /api/V1/test/exam/:id`:** Updates user exam details by ID.
+- **`GET /api/V1/test/user/{id}/exams`:** Get details of all exams assigned to user having id as :id.
+- **`GET /api/V1/test/exam/{id}/modules`:** Get details of all modules linked to exam having id as :id.
+- **`GET /api/V1/test/module/{id}/questions`:** Get details of all questions linked to module having id as :id.
+- **`GET /api/V1/test/question/{id}`:** Get details of question by ID.
+- **`PUT /api/V1/test/question/{id}`:** Updates user question details by ID.
+- **`PUT /api/V1/test/exam/{id}`:** Updates user exam details by ID.
 
 ### User Endpoints [Admin privileges]
 - **`GET /api/V1/user`:** Get all users details.
-- **`GET /api/V1/user/:id`:** Get user details by ID.
+- **`GET /api/V1/user/{id}`:** Get user details by ID.
 
 Refer to the [API Documentation](./docs/DOCUMENTATION.md) for a complete list of endpoints and their usage.
 
