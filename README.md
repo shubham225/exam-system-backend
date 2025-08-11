@@ -42,19 +42,19 @@ Before starting, ensure you have:
 1. **Clone the repository**
    ```bash
    git clone https://github.com/shubham225/exam-system-backend.git
-   |||
+   ```
 2. **Navigate to the project**
    ```bash
    cd exam-system-backend
-   |||
+   ```
 3. **Build the project**
    ```bash
    mvn clean install
-   |||
+   ```
 4. **Run the application**
    ```bash
    java -jar target/exam-service.jar
-   |||
+   ```
 5. Access at: [http://localhost:9050](http://localhost:9050)
 
 
@@ -100,19 +100,19 @@ Set these before running:
 1. Go to certs directory:
    ```bash
    cd src/main/resources/certs/
-   |||
+   ```
 2. Generate private key:
    ```bash
    openssl genrsa -out keypair.pem 2048
-   |||
+   ```
 3. Extract public key:
    ```bash
    openssl rsa -in keypair.pem -pubout -out public.pem
-   |||
+   ```
 4. Convert private key to PKCS#8:
    ```bash
    openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in keypair.pem -out private.pem
-   |||
+   ```
 
 This creates:
 - `public.pem` → Public key
