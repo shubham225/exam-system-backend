@@ -4,7 +4,7 @@
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.1-brightgreen?logo=springboot) 
 ![Maven](https://img.shields.io/badge/Maven-Build%20Tool-C71A36?logo=apachemaven)
 [![Database](https://img.shields.io/badge/Database-MySQL%20%7C%20MariaDB-blue.svg?logo=mysql)](https://www.mysql.com/)
-![License](https://img.shields.io/badge/License-MIT-yellow?logo=opensourceinitiative)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
 Exam Service is a Spring Boot–powered backend for creating, managing, and conducting secure online exams. It provides authentication, role-based access control, and exam administration through a clean, RESTful API.
 
